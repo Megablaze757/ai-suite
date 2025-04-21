@@ -1,31 +1,17 @@
-// app/layout.tsx
 import type { Metadata } from 'next'
-import { Inter, Poppins, Roboto_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-// Font definitions
 const inter = Inter({ 
   subsets: ['latin'],
+  display: 'swap',
   variable: '--font-inter',
-  display: 'swap'
-})
-
-const poppins = Poppins({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-poppins',
-  display: 'swap'
-})
-
-const robotoMono = Roboto_Mono({
-  subsets: ['latin'],
-  variable: '--font-roboto-mono',
-  display: 'swap'
+  adjustFontFallback: false // Disables automatic fallback font
 })
 
 export const metadata: Metadata = {
-  title: 'MyAI Suite - AI Tools for Business',
-  description: 'Powered by DeepSeek and Open-Source AI',
+  title: 'AI Business Suite',
+  description: 'AI-powered tools for your business',
 }
 
 export default function RootLayout({
@@ -34,18 +20,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${robotoMono.variable}`}>
-      <body className="min-h-screen bg-gray-50 antialiased">
-        {/* Brand-colored loading indicator */}
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen bg-white">
+        {/* Loading indicator (optional) */}
         <div className="fixed inset-0 flex justify-center items-center bg-white z-50 opacity-0 animate-fade-out">
-          <div className="w-16 h-16 border-4 border-primary-500/30 border-t-primary-500 rounded-full animate-spin"></div>
+          <div className="w-16 h-16 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
         
         {children}
-
-        {/* Brand watermark */}
+        
+        {/* Version watermark (optional) */}
         <div className="fixed bottom-4 right-4 text-xs text-gray-400">
-          MyAI Suite v1.0
+          AI Suite v1.0
         </div>
       </body>
     </html>
