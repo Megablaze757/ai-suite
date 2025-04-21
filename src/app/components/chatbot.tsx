@@ -1,9 +1,8 @@
 // components/Chatbot.tsx
-'use client'; // Mark as Client Component
+'use client';
 
 import { Send, Bot, User, Loader2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { cn } from '@/lib/utils';
 
 type Message = {
   id: string;
@@ -46,18 +45,16 @@ export default function ChatbotInterface() {
     setIsLoading(true);
 
     try {
-      // Call HuggingFace Inference API (Zephyr-7B)
+      // Call HuggingFace Inference API
       const response = await fetch(
-        'https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta',
+        'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1',
         {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_TOKEN}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            inputs: `You are a helpful business AI assistant. Respond to: "${input}"`,
-          }),
+          body: JSON.stringify({ inputs: input }),
         }
       );
 
@@ -69,7 +66,7 @@ export default function ChatbotInterface() {
       // Add AI response
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: aiText.replace(`You are a helpful business AI assistant. Respond to: "${input}"`, '').trim(),
+        text: aiText,
         isUser: false,
         timestamp: new Date(),
       };
@@ -92,39 +89,33 @@ export default function ChatbotInterface() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Messages container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Messages container with safe bg opacity */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-primary-500 bg-opacity-10 rounded-lg">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={cn(
-              'flex gap-3',
-              message.isUser ? 'justify-end' : 'justify-start'
-            )}
+            className={`flex gap-3 ${message.isUser ? 'justify-end' : 'justify-start'}`}
           >
             <div
-              className={cn(
-                'flex items-start gap-2 max-w-[80%]',
+              className={`flex items-start gap-2 max-w-[80%] ${
                 message.isUser ? 'flex-row-reverse' : 'flex-row'
-              )}
+              }`}
             >
               <div
-                className={cn(
-                  'rounded-full p-2',
+                className={`rounded-full p-2 ${
                   message.isUser
                     ? 'bg-primary-100 text-primary-600'
                     : 'bg-secondary-100 text-secondary-600'
-                )}
+                }`}
               >
                 {message.isUser ? <User size={18} /> : <Bot size={18} />}
               </div>
               <div
-                className={cn(
-                  'rounded-lg px-4 py-3',
+                className={`rounded-lg px-4 py-3 ${
                   message.isUser
                     ? 'bg-primary-500 text-white'
-                    : 'bg-gray-100 text-gray-800'
-                )}
+                    : 'bg-white text-gray-800 border border-gray-200'
+                }`}
               >
                 <p className="whitespace-pre-wrap">{message.text}</p>
                 <p className="text-xs mt-1 opacity-70">
@@ -142,7 +133,7 @@ export default function ChatbotInterface() {
             <div className="rounded-full p-2 bg-secondary-100 text-secondary-600">
               <Bot size={18} />
             </div>
-            <div className="bg-gray-100 text-gray-800 rounded-lg px-4 py-3">
+            <div className="bg-white text-gray-800 rounded-lg px-4 py-3 border border-gray-200">
               <Loader2 className="animate-spin" />
             </div>
           </div>
