@@ -1,15 +1,53 @@
+/* Tailwind Directives - MUST come first */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Safe opacity utilities */
-@layer utilities {
-  .bg-primary-transparent {
-    background-color: rgba(14, 165, 233, 0.2);
+/* Custom Base Styles */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
   }
-  .text-primary {
-    color: #0ea5e9;
+  
+  /* Smooth scrolling for the whole document */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Better text rendering */
+  body {
+    @apply antialiased;
   }
 }
 
+/* Custom Utilities */
+@layer utilities {
+  /* Safe text selection highlight */
+  .selection-primary {
+    @apply bg-blue-500 bg-opacity-20 text-blue-600;
+  }
+  
+  /* For forced color modes */
+  .forced-color-adjust-none {
+    forced-color-adjust: none;
+  }
+}
 
+/* Text selection styling */
+::selection {
+  @apply selection-primary;
+}
+
+/* Scrollbar styling (optional) */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-blue-300 rounded-full hover:bg-blue-400;
+  }
+}
