@@ -1,33 +1,23 @@
-/** @type {import('tailwindcss').Config} */
+// tailwind.config.js
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./utils/**/*.{js,ts}"
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        primary: {
-          50: "#f0f9ff",
-          100: "#e0f2fe",
-          200: "#bae6fd",
-          300: "#7dd3fc",
-          400: "#38bdf8",
-          500: "#0ea5e9", // Main brand blue
-          600: "#0284c7",
-          700: "#0369a1",
-          800: "#075985",
-          900: "#0c4a6e",
-        },
-        secondary: {
-          500: "#8b5cf6" // Brand purple
-        }
+    colors: {
+      // Minimal working config
+      primary: {
+        500: '#0ea5e9', // MUST match your usage
       },
-      backgroundColor: {
-        'primary-transparent': 'rgba(14, 165, 233, 0.2)'
+      white: '#ffffff',
+      gray: {
+        200: '#e5e7eb',
+        800: '#1f2937'
       }
-    }
+    },
+    extend: {},
   },
   plugins: [],
 }
