@@ -1,29 +1,26 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
+      "./app/**/*.{js,ts,jsx,tsx,mdx}",
       "./components/**/*.{js,ts,jsx,tsx}",
-      "./app/**/*.{js,ts,jsx,tsx}",
+      "./src/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
       extend: {
         // ===== Brand Colors =====
         colors: {
-          // Primary brand color (buttons, highlights)
           primary: {
             50: "#f0f9ff",
             100: "#e0f2fe",
             200: "#bae6fd",
             300: "#7dd3fc",
             400: "#38bdf8",
-            500: "#0ea5e9", // Main primary
+            500: "#0ea5e9", // Main brand color
             600: "#0284c7",
             700: "#0369a1",
             800: "#075985",
             900: "#0c4a6e",
           },
-  
-          // Secondary color (accent elements)
           secondary: {
             50: "#f5f3ff",
             100: "#ede9fe",
@@ -36,52 +33,46 @@ module.exports = {
             800: "#5b21b6",
             900: "#4c1d95",
           },
-  
-          // Neutral/gray palette
-          gray: {
-            50: "#f9fafb",
-            100: "#f3f4f6",
-            200: "#e5e7eb",
-            300: "#d1d5db",
-            400: "#9ca3af",
-            500: "#6b7280",
-            600: "#4b5563",
-            700: "#374151",
-            800: "#1f2937",
-            900: "#111827",
-          },
-  
-          // Success/error states
           success: "#10b981",
           error: "#ef4444",
           warning: "#f59e0b",
         },
   
+        // ===== Opacity Support =====
+        opacity: {
+          0: "0",
+          10: "0.1",
+          20: "0.2",
+          30: "0.3",
+          40: "0.4",
+          50: "0.5",
+          60: "0.6",
+          70: "0.7",
+          80: "0.8",
+          90: "0.9",
+          100: "1",
+        },
+  
         // ===== Typography =====
         fontFamily: {
-          sans: ["var(--font-inter)", "sans-serif"], // Body text
-          heading: ["var(--font-poppins)", "sans-serif"], // Headings
-          mono: ["var(--font-roboto-mono)", "monospace"], // Code
+          sans: ["var(--font-inter)", "sans-serif"],
+          heading: ["var(--font-poppins)", "sans-serif"],
+          mono: ["var(--font-roboto-mono)", "monospace"],
         },
   
         // ===== Extended Utilities =====
-        borderRadius: {
-          '4xl': '2rem', // Extra-large rounded corners
-        },
         boxShadow: {
-          'soft': '0 4px 24px rgba(0, 0, 0, 0.08)', // Subtle shadow
-          'glow': '0 0 12px rgba(14, 165, 233, 0.4)', // Blue glow effect
-        },
-        spacing: {
-          '18': '4.5rem', // Additional spacing value
+          glow: "0 0 12px -2px rgb(14 165 233 / 0.4)", // primary-500/40
+          "glow-md": "0 0 16px -3px rgb(14 165 233 / 0.5)",
         },
         animation: {
-          'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        }
+          "spin-slow": "spin 3s linear infinite",
+          "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        },
       },
     },
     plugins: [
-      require('@tailwindcss/forms'), // Form styling
-      require('@tailwindcss/typography'), // Prose content
+      require("@tailwindcss/forms"),
+      require("@tailwindcss/typography"),
     ],
-  }
+  };
