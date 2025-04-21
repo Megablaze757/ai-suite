@@ -1,7 +1,9 @@
+// components/Chatbot.tsx
 'use client';
 
 import { Send, Bot, User, Loader2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 
 type Message = {
   id: string;
@@ -47,14 +49,15 @@ export default function ChatbotInterface() {
         {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_TOKEN}`,
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_HF_TOKEN}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ inputs: input }),
         }
       );
 
-      if (!response.ok) throw new Error('API request failed');
+      if (!response.ok) throw new Error(`API Error: ${response.status}`);
+      
       const data = await response.json();
       const aiText = data[0]?.generated_text || "I couldn't process that request.";
 
@@ -68,11 +71,17 @@ export default function ChatbotInterface() {
         },
       ]);
     } catch (error) {
+      console.error('Chat error:', error);
+      toast.error(
+        error instanceof Error 
+          ? error.message 
+          : 'Failed to process request'
+      );
       setMessages((prev) => [
         ...prev,
         {
           id: 'error',
-          text: 'Sorry, I encountered an error. Please try again.',
+          text: 'Please try again later',
           isUser: false,
           timestamp: new Date(),
         },
@@ -84,9 +93,12 @@ export default function ChatbotInterface() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-primary-transparent rounded-lg">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-primary-500 bg-opacity-10 rounded-lg">
         {messages.map((message) => (
-          <div key={message.id} className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}>
+          <div 
+            key={message.id} 
+            className={`flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+          >
             <div className={`flex max-w-[80%] ${message.isUser ? 'flex-row-reverse' : 'flex-row'} gap-2`}>
               <div className={`p-2 rounded-full ${
                 message.isUser ? 'bg-primary-100 text-primary-600' : 'bg-secondary-100 text-secondary-600'
@@ -125,11 +137,12 @@ export default function ChatbotInterface() {
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 border border-gray-300 rounded-l-lg px-4 py-2 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             disabled={isLoading}
+            placeholder="Type your message..."
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-r-lg disabled:opacity-50"
+            className="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-r-lg disabled:opacity-50 transition-opacity"
           >
             {isLoading ? <Loader2 className="animate-spin" /> : <Send size={18} />}
           </button>
