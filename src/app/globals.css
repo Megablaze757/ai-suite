@@ -2,29 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-}
-
+/* Safe opacity utilities */
 @layer utilities {
-  /* Safe opacity alternative */
-  .bg-primary-opacity {
+  .bg-primary-transparent {
     background-color: rgba(14, 165, 233, 0.2);
   }
-  
-  /* Text selection style */
-  .selection-primary {
-    @apply bg-primary-500 bg-opacity-20 text-primary-600;
+  .text-primary {
+    color: #0ea5e9;
   }
 }
 
+/* Text selection style */
 ::selection {
-  @apply selection-primary;
+  @apply bg-primary-500 bg-opacity-20 text-primary-600;
 }
